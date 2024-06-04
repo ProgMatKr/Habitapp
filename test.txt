@@ -1,0 +1,64 @@
+
+<?php
+// Włączenie raportowania błędów dla debugowania
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Wyświetlenie zawartości tablicy $_POST
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+
+    // Pobieranie i sanitizacja danych z formularza
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+    // Walidacja danych
+    if (empty($username) || empty($email) || empty($password)) {
+        echo "Wszystkie pola są wymagane.";
+        exit();
+    }
+
+    // Haszowanie hasła przed zapisaniem
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Połączenie z bazą danych
+    $conn = new mysqli('localhost', 'root', '', 'habitapp');
+    if ($conn->connect_error) {
+        die("Błąd połączenia z MySQL: " . $conn->connect_error);
+    }
+
+    // Przygotowanie zapytania SQL
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, NOW())");
+    if ($stmt) {
+        $stmt->bind_param("sss", $username, $email, $hashed_password);
+
+        // Wykonanie zapytania
+        if ($stmt->execute()) {
+            echo "Rejestracja użytkownika zakończona sukcesem.";
+        } else {
+            echo "Błąd: " . $stmt->error;
+        }
+
+        // Zamknięcie zapytania
+        $stmt->close();
+    } else {
+        echo "Nie udało się przygotować zapytania SQL.";
+    }
+
+    // Zamknięcie połączenia z bazą danych
+    $conn->close();
+} else {
+    echo "Nieprawidłowa metoda żądania.";
+}
+?>
+
+
+
+
+zapytanie laczone tablice
+
+SELECT habits.habit_name, users.username FROM habits JOIN users ON habits.user_id = users.id LIMIT 100

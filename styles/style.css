@@ -1,0 +1,243 @@
+body {
+    background-color: #ebd4b9;
+    padding: 0;
+    margin: 0;
+    font-family: cursive;
+    color: rgb(48, 45, 45);
+
+}
+
+.footer_menu {
+    background-color: #FF8080;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 10px 4px 6px 10px rgb(0 0 0 / 0.1);
+
+}
+
+.footer_menu_component {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+}
+
+.success_message {
+    color: white;
+    background-color: rgb(109, 190, 109);
+    font-weight: 500;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.danger_message {
+    color: white;
+    background-color: #FF8080;
+    font-weight: 500;
+    padding: 1rem;
+        text-align: center;
+    margin-top: 10px;
+}
+
+.footer_menu_component div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.footer_menu_component a {
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+.alert alert-success {
+    color: green;
+    font-weight: 700;
+    text-align: center;
+    position: absolute;
+    margin-top: 10px;
+}
+
+.user_welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-weight: 500;
+    text-align: center;
+    font-size: 15px;
+
+}
+
+
+
+
+.header_component {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+    background-color: #FF8080;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+header li {
+    list-style-type: none;
+    display: inline;
+    margin-right: 10px;
+
+}
+
+header a {
+    color: black;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 15px;
+    margin-left: 10px;
+
+}
+header nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: white;
+    padding: 10px;
+}
+
+
+.logo {
+    width: 100px;
+
+}
+
+
+.habit_done {
+    background-color: #90EE90;
+    padding: 20px;
+    font-size: 15px;
+    text-align: center;
+    box-shadow: rgba(100,100,111, 0.2) 0px 7px 29px 0px;
+
+  }
+
+.habit_undone {
+    background-color: #FF8080;
+    padding: 20px;
+    font-size: 15px;
+    text-align: center;
+    box-shadow: rgba(100,100,111, 0.2) 0px 7px 29px 0px;
+}
+
+
+.main_section {
+    position: relative;
+}
+
+/* Styles for the register form */
+
+.container {
+    display: flex;
+    padding: 1rem;
+    width: 100%;
+    flex-direction: column;
+    margin: 0 auto;
+    box-shadow: rgba(100,100,111, 0.2) 0px 7px 29px 0px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+
+
+.register_button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #f5f5f5;
+    background-color: rgb(0, 102, 255);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+
+
+/*end of styles for the register form */
+
+.grid-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+    padding: 10px;
+}
+  .grid-item {
+    background-color: white;
+    padding: 20px;
+    font-size: 15px;
+    text-align: center;
+
+  }
+  
+/* Wysuwany panel użytkownika */
+
+.account-panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 90%;
+    height: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    transition: transform 0.3s ease-out;
+    transform: translateX(100%);
+}
+
+.account-panel.show {
+    transform: translateX(0);
+}
+
+.account-panel a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.closeMenu {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: #FF8080;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;}
+
+
+.inside {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+/* POMODORO TIMER */
+
+
+
