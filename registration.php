@@ -24,14 +24,16 @@ require_once "database.php";
 
     if (isset($_POST["submit"])) {
 
-
-
-
         // DEFINICJA ZMIENNYCH METODA POST
             $username = $_POST["username"];
             $email = $_POST["email"];
             $password = $_POST["password"];
             $passwordConf = $_POST["passwordConf"];
+            $avatar = isset($_POST["avatar"]) ? $_POST["avatar"] : 'default_avatar.png';
+
+
+
+
             $passwordhash = password_hash($password, PASSWORD_DEFAULT);
             $errors = array();
         // DEFINICJA ZMIENNYCH METODA POST
@@ -39,6 +41,11 @@ require_once "database.php";
 
 
         // SPRAWDZENIE CZY POLA SA PUSTE
+
+        if (empty($avatar)) {
+            array_push($errors, "Please select an avatar.");
+        }
+        
 
             if(empty($username) or empty($email) or empty($password) or empty($passwordConf)){
                 array_push($errors, "All fields are required");
@@ -90,20 +97,19 @@ require_once "database.php";
             }
             
             // POLACZENIE Z BAZA DANYCH I WPROWADZENIE DANYCH DO BAZY
-            else{
-                
-                $sql = "INSERT INTO users (username, email, password) VALUES ( ?,?,?)";
-                $stmt = mysqli_stmt_init($conn);
-                $preperestmt = mysqli_stmt_prepare($stmt, $sql);
-
-                if($preperestmt){
-                    mysqli_stmt_bind_param($stmt, "sss", $username, $email, $passwordhash);
+            else {
+                $sql = "INSERT INTO users (username, email, password, avatar) VALUES (?, ?, ?, ?)";
+                $stmt = mysqli_prepare($conn, $sql);
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $passwordhash, $avatar);
                     mysqli_stmt_execute($stmt);
                     echo "<div class='alert alert-success'>Registration successful</div>";
-                }else{
+                } else {
                     echo "<div class='alert alert-danger'>Registration failed</div>";
                 }
         }
+        header("Location: /index.php");
+
 
     }
 
@@ -126,6 +132,32 @@ require_once "database.php";
                 <div class="form-group">
                     <input type="password" name="passwordConf" class="form-control" placeholder="Confirm Password" required>
                 </div>
+                <div class="form-group">
+              <div class="form-group">
+                <label>Choose your avatar:</label><br>
+                <label>
+                    <input type="radio" name="avatar" value="avatar_1.png">
+                    <img src="images\uploaded_avatars\avatar_1.png" alt="Avatar 1" width="50">
+                </label>
+                <label>
+                    <input type="radio" name="avatar" value="avatar_2.png">
+                    <img src="images\uploaded_avatars\avatar_2.png" alt="Avatar 2" width="50">
+                </label>
+                <label>
+                    <input type="radio" name="avatar" value="avatar_3.png">
+                    <img src="images\uploaded_avatars\avatar_3.png" alt="Avatar 3" width="50">
+                </label>
+                <label>
+                    <input type="radio" name="avatar" value="avatar_4.png">
+                    <img src="images\uploaded_avatars\avatar_4.png" alt="Avatar 4" width="50">
+                </label>
+                <label>
+                    <input type="radio" name="avatar" value="avatar_5.png">
+                    <img src="images\uploaded_avatars\avatar_5.png" alt="Avatar 4" width="50">
+                </label>
+            </div>
+               
+            </div>
 
                 <div class="form-button">
                     <button type="submit" name="submit" class="register_button">Register</button>

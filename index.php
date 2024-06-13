@@ -34,7 +34,6 @@ if (!isset($_SESSION["logged_in"])) {
 
 
 
-
 <?php include 'components/progress_bar.php'; ?>
 
 

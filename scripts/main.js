@@ -14,7 +14,7 @@ window.onload = function() {
 }
 
 
-let workTime = 1;
+let workTime = 25;
 let shortBreak = 5;
 let longBreak = 15;
 let currentTime = workTime * 60;

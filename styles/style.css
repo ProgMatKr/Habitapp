@@ -146,7 +146,6 @@ header nav {
 .container {
     display: flex;
     padding: 1rem;
-    width: 100%;
     flex-direction: column;
     margin: 0 auto;
     box-shadow: rgba(100,100,111, 0.2) 0px 7px 29px 0px;

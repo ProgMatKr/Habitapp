@@ -1,7 +1,6 @@
 <?php
 
-require 'database.php';
-
+session_start();
 
 require_once "database.php";
 
@@ -9,12 +8,6 @@ require_once "database.php";
 
 
 
-if (isset($_SESSION["logged_in"])) {
-
-    header("Location: add_habit.php");
-
-    die();
-}
 
 ?>
 
@@ -45,17 +38,15 @@ if ($result->num_rows > 0) {
 }
 
 // Zamknięcie połączenia
-$conn->close();
 
 ?>
 
 <!-- Dodaj przycisk "Dodaj nawyk" -->
-<a href="add_habit_form.php" class="btn btn-primary">Dodaj nawyk</a>
-<form action='delete_habit.php' method='post' class='w-full'>
-                    <input type='hidden' name='habit_id' value='" . $habit['id'] . "'>
-                    <input type='submit' class='mt-auto px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 w-full' value='Leave habit'>
+                <form action='delete_habit.php' method='post' class='w-full'>
+                <input type='hidden' name='habit_id' value='<?php echo $habit_id; ?>'>
+                <input type='submit' class='mt-auto px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 w-full' value='Leave habit'>
                 </form>
-
+                
 
 
 <?php include 'components/footer_app.php'; ?>

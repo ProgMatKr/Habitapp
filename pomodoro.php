@@ -21,7 +21,6 @@ $completed_pomodoros = $row['wykonanych_pomodoro'];
 
 // Zamknięcie zapytania i połączenia z bazą danych
 $stmt->close();
-$conn->close();
 ?>
 <div class="p-2 bg-white mt-2">
     <div class="  mt-1  shadow-md text-center">

@@ -42,13 +42,46 @@ if(isset($_SESSION["logged_in"])) {
                             mysqli_query($conn, $sql);
 
                             // Obliczenie days streak
-                            $sql = "SELECT COUNT(DISTINCT DATE(login_date)) as days_streak FROM user_logins WHERE user_id = {$user['id']} AND login_date >= CURDATE() - INTERVAL 7 DAY";
-                            $result = mysqli_query($conn, $sql);
-                            $row = mysqli_fetch_assoc($result);
-                            $days_streak = $row['days_streak'];
+                            $sql = "SELECT DISTINCT DATE(login_date) as login_date FROM user_logins WHERE user_id = ? AND login_date >= CURDATE() - INTERVAL 7 DAY ORDER BY login_date DESC";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
 
-                            $_SESSION["days_streak"] = $days_streak;
-                                    
+                            $login_dates = [];
+                            while ($row = $result->fetch_assoc()) {
+                                $login_dates[] = $row['login_date'];
+                            }
+
+                            $stmt->close();
+
+                            // Sprawdzanie ciągłości logowania
+                            $today = new DateTime();
+                            $streak = 0;
+                            $is_streak_broken = false;
+
+                            for ($i = 0; $i < 7; $i++) {
+                                $date_check = clone $today;
+                                $date_check->sub(new DateInterval('P' . $i . 'D'));
+                                $formatted_date = $date_check->format('Y-m-d');
+
+                                if (in_array($formatted_date, $login_dates)) {
+                                    $streak++;
+                                } else {
+                                    if ($i > 0) { // Przerwanie streaka
+                                        $is_streak_broken = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if ($is_streak_broken) {
+                                $streak = 0;
+                                // Możesz tutaj dodać logikę resetowania danych użytkownika w bazie danych, jeśli to potrzebne
+                            }
+
+                            $_SESSION["days_streak"] = $streak;
+                                                                
 
                        
                         header("Location: index.php");

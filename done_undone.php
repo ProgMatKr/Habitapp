@@ -26,5 +26,4 @@ if ($user_id) {
 }
 
 // Zamknięcie połączenia z bazą danych
-$conn->close();
 ?>

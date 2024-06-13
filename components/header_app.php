@@ -25,5 +25,4 @@
             </div>
         </header>
 
-    <main>
-
+        <main class="h-screen">

@@ -52,5 +52,4 @@ header("Location: /myhabits.php");
 exit;
 
 // Zamknij połączenie
-$conn->close();
 ?>

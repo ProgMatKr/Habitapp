@@ -18,5 +18,4 @@ if ($user_id) {
     echo "User ID not found.";
 }
 
-$conn->close();
 ?>

@@ -12,4 +12,4 @@
 <body>
 
 
-<main>
+<main class="h-screen">
