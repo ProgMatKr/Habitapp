@@ -35,15 +35,22 @@ if (!isset($_SESSION["logged_in"])) {
 
 
 
-<?php include 'components/progress_bar.php'; ?>
 
 
 <div class="p-2">
-<a href="/myhabits.php" >
-<img  width="40px" height="auto" src="images\add.svg">
-    
-</a>
 
+    <h3 class="p-2 text-xl">My habits: </h3>
+    <?php include 'components/undone_habits.php'; ?>
+</div>
+
+
+
+<div class="p-2">
+
+    <h3 class="p-2 text-xl">My Progress:</h3>
+
+
+    
 </div>
 
 
@@ -51,16 +58,6 @@ if (!isset($_SESSION["logged_in"])) {
 
 
 
-
-
-<?php include 'components/progress.php'; ?>
-
-
-
-
-
-
-<div class="h-20"></div>
 
 
 

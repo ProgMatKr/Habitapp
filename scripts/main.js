@@ -14,22 +14,19 @@ window.onload = function() {
 }
 
 
-let workTime = 35;
+let workTime = 1;
 let shortBreak = 5;
 let longBreak = 15;
-let currentTime = workTime;
+let currentTime = workTime * 60;
 let isRunning = false;
 let timer;
 
-
-
-//ta funkcja formatuje czas, aby zawsze miał dwie cyfry
+// Ta funkcja formatuje czas, aby zawsze miał dwie cyfry
 function formatTime(time) {
     return time < 10 ? `0${time}` : time;
 }
 
-
-//ta funkcja aktualizuje wyświetlany czas
+// Ta funkcja aktualizuje wyświetlany czas
 function updateDisplay() {
     let minutes = Math.floor(currentTime / 60);
     let seconds = currentTime % 60;
@@ -37,7 +34,7 @@ function updateDisplay() {
     document.getElementById('seconds').textContent = formatTime(seconds);
 }
 
-
+// Funkcja startuje licznik
 function startTimer() {
     if (!isRunning) {
         isRunning = true;
@@ -47,11 +44,17 @@ function startTimer() {
             if (currentTime <= 0) {
                 clearInterval(timer);
                 isRunning = false;
+                if (currentTime === 0) {
+                    // Tylko jeśli sesja pracy zakończyła się normalnie
+                    logPomodoroSession();
+                    alert("Pomodoro session completed!");
+                }
             }
         }, 1000);
     }
 }
 
+// Funkcja zatrzymuje licznik
 function stopTimer() {
     if (isRunning) {
         clearInterval(timer);
@@ -59,12 +62,32 @@ function stopTimer() {
     }
 }
 
+// Funkcja resetuje licznik do wartości domyślnej
 function resetTimer() {
     stopTimer();
-    currentTime = workTime;
+    currentTime = workTime * 60;
     updateDisplay();
 }
 
+// Funkcja loguje sesję Pomodoro na serwerze
+function logPomodoroSession() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "log_pomodoro.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("user_id=<?php echo $user_id; ?>");
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Aktualizacja licznika zakończonych sesji na stronie
+            let countElem = document.getElementById('pomodoro-count');
+            let count = parseInt(countElem.textContent, 10);
+            countElem.textContent = count + 1;
+        } else {
+            console.error("Failed to log session.");
+        }
+    }
+}
+
+// Event listener dla przycisków zmieniających czas sesji
 document.getElementById('work').addEventListener('click', () => {
     currentTime = workTime * 60;
     updateDisplay();
@@ -80,8 +103,10 @@ document.getElementById('long_brake').addEventListener('click', () => {
     updateDisplay();
 });
 
+// Event listener dla przycisków sterujących czasem
 document.getElementById('start').addEventListener('click', startTimer);
 document.getElementById('stop').addEventListener('click', stopTimer);
 document.getElementById('reset').addEventListener('click', resetTimer);
 
+// Inicjalne wyświetlenie czasu
 updateDisplay();

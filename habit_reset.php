@@ -26,8 +26,8 @@ if ($stmt->affected_rows > 0) {
     
     $_SESSION['message'] = "<div class='danger_message'>Error resetting habit</div>";
 }
+header("Location: " . $_SERVER['HTTP_REFERER']);
 
-header("Location: /myhabits.php");
 exit;
 
 // Zamknij połączenie

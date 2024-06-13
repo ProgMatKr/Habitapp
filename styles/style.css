@@ -185,7 +185,6 @@ header nav {
     background-color: white;
     padding: 20px;
     font-size: 15px;
-    text-align: center;
 
   }
   
@@ -240,4 +239,28 @@ header nav {
 /* POMODORO TIMER */
 
 
-
+/* PASEK */
+.progress-container {
+    width: 100%;
+    background-color: WHITE;
+    border-radius: 25px;
+    padding: 3px;
+    margin: 20px 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+.progress-bar {
+    width: 0%;
+    height: 30px;
+    background-color: #4caf50;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    transition: width 0.5s ease;
+}
+.progress-label {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}

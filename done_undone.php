@@ -1,6 +1,4 @@
 <?php
-
-    
 // Pobieranie user_id z sesji lub z URL
 $user_id = isset($_SESSION['userid']) ? $_SESSION['userid'] : (isset($_GET['userid']) ? $_GET['userid'] : null);
 if ($user_id) {
@@ -9,59 +7,22 @@ if ($user_id) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
-    $result = $stmt->get_result();
-
-    $done_habits = [];
-    $undone_habits = [];
-
-    while ($row = $result->fetch_assoc()) {
-        // Sprawdź, czy nawyk jest zrobiony
-        $sql_done = "SELECT * FROM habit_data WHERE userid = ? AND habitid = ? AND date = CURDATE()";
-        $stmt_done = $conn->prepare($sql_done);
-        $stmt_done->bind_param("ii", $user_id, $row['id']);
-        $stmt_done->execute();
-        $result_done = $stmt_done->get_result();
-
-        if ($result_done->num_rows > 0) {
-            $done_habits[] = $row;
-        } else {
-            $undone_habits[] = $row;
-        }
-
-        $stmt_done->close();
-    }
+    $habits = $stmt->get_result();
 
     $stmt->close();
-    echo "<a href='/habits.php'>Zobacz wszystkie nawyki</a>";
+    echo "<div class='max-w-2xl'>";
+    echo "<a href='/habits.php' class='text-indigo-600 hover:underline mb-4 inline-block'>Zobacz wszystkie nawyki</a>";
 
-    echo "<h2>Zrobione nawyki:</h2>";
-    foreach ($done_habits as $habit) {
-        echo "<div class='grid-item alert alert-info'> <a href='singlehabit.php?habit_id=" . $habit['id'] . "'>" . $habit['habit_name'] . " </a>
-    <form action=\"delete_habit.php\" method=\"post\">
-    <input type=\"hidden\" name=\"habit_id\" value=\"" . $habit['id'] . "\">
-    <input type=\"submit\" class=\"btn btn-danger\" value=\"Leave habit\"></form> 
-    <form action=\"habit_reset.php\" method=\"post\">
-    <input type=\"hidden\" name=\"habit_id\" value=\"" . $habit['id'] . "\">
-    <input type=\"submit\" class=\"btn btn-danger\" value=\"Reset\"></form>
-  
-    </div>";
+    echo "<h2 class='text-2xl font-semibold text-gray-700 mb-4'>My habits:</h2>";
+    echo "<div class='grid gap-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>";
+    foreach ($habits as $habit) {
+        echo "
+                <a href='singlehabit.php?habit_id=" . $habit['id'] . "' class='text-lg bg-white p-6 uppercase rounded-lg shadow-lg flex flex-col items-start font-medium text-gray-700 hover:underline mb-2'>" . $habit['habit_name'] . "</a>";
     }
-
-    echo "<h2>Niezrobione nawyki:</h2>";
-    foreach ($undone_habits as $habit) {
-        echo "<div class='grid-item alert alert-info'> <a href='singlehabit.php?habit_id=" . $habit['id'] . "'>" . $habit['habit_name'] . " </a>
-    <form action=\"delete_habit.php\" method=\"post\">
-    <input type=\"hidden\" name=\"habit_id\" value=\"" . $habit['id'] . "\">
-    <input type=\"submit\" class=\"btn btn-danger\" value=\"Leave habit\"></form> 
-    
-    <form action=\"done_habit.php\" method=\"post\">
-    <input type=\"hidden\" name=\"habit_id\" value=\"" . $habit['id'] . "\">
-    <input type=\"submit\" class=\"btn btn-success\" value=\"Zrobione\"></form>
-    </div>";
-    }
-
+    echo "</div>";
+    echo "</div>";
 } else {
-    echo "Brak user_id.";
+    echo "<div class='text-center text-red-600 font-semibold'>Brak user_id.</div>";
 }
 
 // Zamknięcie połączenia z bazą danych
